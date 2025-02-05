@@ -1,0 +1,22 @@
+service:
+  name: video-editor
+  type: web
+  ports:
+    - port: 8000
+      protocol: http
+  env:
+    - name: PYTHONUNBUFFERED
+      value: "true"
+    - name: PYTHONPATH
+      value: "/app"
+    - name: NUMPY_EXPERIMENTAL_ARRAY_FUNCTION
+      value: "0"
+  build:
+    builder: dockerfile
+  resources:
+    cpu: 1000m
+    memory: 512Mi
+  scale:
+    horizontal:
+      min: 1
+      max: 1 
