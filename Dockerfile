@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python build dependencies
-RUN pip install --no-cache-dir -U pip setuptools wheel
+# Install Python build dependencies first
+RUN pip install --no-cache-dir -U pip setuptools wheel numpy==1.23.5
 
 # Copy requirements first for better caching
 COPY requirements.txt .
