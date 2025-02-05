@@ -15,20 +15,16 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python build dependencies first
-RUN pip install --no-cache-dir -U pip setuptools wheel numpy==1.23.5
-
-# Copy requirements first for better caching
-COPY requirements.txt .
-
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -U pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 8000
 
-# Command to run the application
+# Run the application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"] 
